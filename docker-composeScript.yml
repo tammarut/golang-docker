@@ -1,0 +1,52 @@
+#---------------------Scripts Pleum-----------------------------
+version: '3'
+services:
+  mongodb:
+    image: mongo:4.0.5
+    container_name: "mongodb"
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+ 
+  go-api:
+   image: mongoapi:1.4
+   containner_name: "goapi+mongo"
+   ports:
+     - "1300:1300"
+   volumes:
+     - .:/go/src/api
+   command: go run main.go
+
+#---------------------Scripts M-----------------------------
+version: '0.1'
+services :
+ mongo :
+  image : mongo:4.0.5
+  volumes :
+   - ./data/db:/data/db
+  ports :
+   - "27017:27017"
+ api :
+  image : teamt-api:0.1
+  volumes :
+   - ./teammate/api_mongodb:/go/src/API
+  ports :
+   - "1300:1300"
+  command : go run main.go
+#---------------------Scripts M:lastest-----------------------------
+version: '3'
+services :
+ mongo :
+  image : mongo:4.0.5
+  volumes :
+   - ./data/db:/data/db
+  ports :
+   - "27017:27017"
+ api :
+  image : apimongo:0.1
+  ports :
+   - "1323:1323"
+  volumes :
+   - ./teammate/api_mongodb:/go/src/api
+  command : go run main.go

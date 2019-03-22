@@ -1,0 +1,37 @@
+#——————————————Script Pleum————————————————————————
+FROM golang:1.8
+WORKDIR /go/src/api
+COPY . .
+RUN export GO111MODULE=on
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+#——————————————Script M what? don't know——————————————————
+FROM mongo:4.0.5
+RUN mkdir -p /var/lib/mogo
+RUN mkdir -p /var/log/mongodb
+
+#——————————————Script M Work!———————————————————————
+FROM golang:1.8
+WORKDIR /go/src/API
+COPY . .
+RUN export GO111MODULE=on
+RUN go get -d -v ./...
+#——————————————Script M lastest———————————————————————
+FROM golang:1.11
+ENV GO111MODULE=on
+WORKDIR /go/src/api
+COPY . .
+RUN go mod download
+
+#——————————————Just play———————————————————————
+FROM golang:onbuild
+WORKDIR /go/src/mongoapi
+ADD . /go/src/mongoapi
+RUN export GO111MODULE=on
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+ENTRYPOINT /go/src/mongoapi
+
+EXPOSE 1300
